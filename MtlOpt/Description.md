@@ -4,7 +4,9 @@ This shiny app visualises the material properties assignment optimization for os
 
 ## View the study: 
 
-< tbd >
+To read a preprint version of the study, visit the link below. The study is currently pending review in Nature Scientific Reports.
+
+https://engrxiv.org/nxv9a/
 
 ## Visit the Shiny App:
 
