@@ -4,21 +4,27 @@ library(plotly)
 library(readxl)
 library(shinyWidgets)
 library(ggpubr)
-library("RColorBrewer")
-
+# library("RColorBrewer")
+# library(rio)
+# library(openxlsx)
 
 # Load VTR Data ----
-url <- "https://raw.githubusercontent.com/bji219/ShinyApps/master/RespSurf/Response_Surface_1k_Cutoff_Multi_Element_v06.xlsx"
+url1 <- "https://raw.githubusercontent.com/bji219/ShinyApps/master/RespSurf/Tet10_R.csv"
+url2 <- "https://raw.githubusercontent.com/bji219/ShinyApps/master/RespSurf/Hex8_R.csv"
+url3 <- "https://raw.githubusercontent.com/bji219/ShinyApps/master/RespSurf/Hex20_R.csv"
+url4 <- "https://raw.githubusercontent.com/bji219/ShinyApps/master/RespSurf/Tet10_R_VTR.csv"
+url5 <- "https://raw.githubusercontent.com/bji219/ShinyApps/master/RespSurf/Hex8_R_VTR.csv"
+url6 <- "https://raw.githubusercontent.com/bji219/ShinyApps/master/RespSurf/Hex20_R_VTR.csv"
 
 # Import RMSE data
-tet10_raw <- read_excel(url,sheet = "Tet10_R")
-hex8_raw <- read_excel(url,sheet = "Hex8_R")
-hex20_raw <- read_excel(url,sheet = "Hex20_R")
+tet10_raw <- read_csv(url1, col_types=cols())
+hex8_raw <- read_csv(url2, col_types=cols())
+hex20_raw <- read_csv(url3, col_types=cols())
 
 # Import VTR Data
-Tet10_VTR <- read_excel(url,sheet = "Tet10_R_VTR")
-Hex8_VTR <- read_excel(url,sheet = "Hex8_R_VTR")
-Hex20_VTR <- read_excel(url,sheet = "Hex20_R_VTR")
+Tet10_VTR <- read_csv(url4, col_types=cols())
+Hex8_VTR <- read_csv(url5, col_types=cols())
+Hex20_VTR <- read_csv(url6, col_types=cols())
 
 # Turn into data frame
 tet10_rmse = data.frame(tet10_raw$Slope,tet10_raw$Cutoff,tet10_raw$RMSE)
@@ -141,7 +147,7 @@ server <- function(input, output, session) {
   # RMSE Individual Plots
   tetsurf <- reactive({
     tetsurf <- plot_ly(filtered_RMSE10(), x = ~Cutoff, y = ~Slope, z = ~RMSE, scene = 'scene') %>%
-      layout(title = 'Tet10 RMSE Surface') %>% add_trace(type="mesh3d", intensity = ~RMSE, colorscale= "Jet", showscale = FALSE ) %>% 
+      layout(title = 'Tet10 RMSE Surface') %>% add_trace(type="mesh3d", intensity = ~RMSE, colorscale= "Viridis", showscale = FALSE ) %>% 
       add_mesh(data = planeDf, x = ~x, y = ~y, z = ~z, opacity = 0.25, facecolor = plane_colors) %>% 
       add_trace(data = tet10_point(), x = ~Cutoff, y = ~Slope, z = ~RMSE, marker = marker_colors)
   })
